@@ -8,13 +8,8 @@ export default async function handler(req, res) {
 	).then((res) => res.json());
 
 	let result = txHistory.result.map(async (tx) => {
-		const value = await getUSDValue(
-			tx.timeStamp,
-			tx.value,
-			tx.from,
-			walletAddress
-		);
-		tx.usd = value[1];
+		const value = await getUSDValue(tx.timeStamp, tx.value, tx.from, walletAddress);
+		tx.usd = value[1].toFixed(2);
 		tx.eth = value[0];
 		tx.type = value[2];
 		tx.humantimeStamp = value[3];
@@ -22,8 +17,8 @@ export default async function handler(req, res) {
 	});
 
 	await Promise.all(result).then((values) => (result = values));
-	console.log(result);
-	res.status(200).json({ name: result });
+	console.log(result)
+	res.status(200).json({ result });
 }
 
 const getUSDValue = async (timeStamp, value, fromAddress, address) => {
@@ -32,14 +27,17 @@ const getUSDValue = async (timeStamp, value, fromAddress, address) => {
 			timeStamp
 	).then((res) => res.json());
 	//console.log('this',result["Data"]["Data"][1])
-	const length = result["Data"]["Data"].length;
+	console.log(result['Data']['Data'])
+	const length = result['Data']['Data'].length
 	const rate = result["Data"]["Data"][length - 1]["close"];
 	const eth = value / 10 ** 18;
 	const humantimeStamp = String(new Date(timeStamp * 1000));
-
-	if (fromAddress == address.toLowerCase()) {
-		return [eth, eth * rate, "expense", humantimeStamp];
+	const timearr = humantimeStamp.split(' ')
+	const nicetime = timearr[2] + ' ' + timearr[1] + ' ' + timearr[3] + ' ' + timearr[4].slice(0, 5)
+	
+    if (fromAddress == address.toLowerCase()){
+		return [eth, eth * rate, 'Expense', nicetime]
 	}
 
-	return [eth, eth * rate, "receivable", humantimeStamp];
+	return [eth, eth * rate, 'Receivable', nicetime];
 };
