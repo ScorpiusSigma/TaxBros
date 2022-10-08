@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 
 export default function View({ walletAddress, type }) {
 	const [tax, setTaxes] = useState([]);
-	const api = ["getTaxReports", "getReceivable", "getExpense"];
+	const api = ["getTaxReports", "getReceivables", "getExpenses"];
 	const [loader, setLoader] = useState(false);
 
 	const getTaxReports = async () => {
+		setTaxes([]);
 		setLoader(true);
 		await fetch(`/api/${api[type]}`, {
 			method: "POST",
@@ -19,7 +20,6 @@ export default function View({ walletAddress, type }) {
 				setLoader(false);
 			})
 			.catch(() => {
-				setTaxes([]);
 				setLoader(false);
 			});
 	};
@@ -49,10 +49,14 @@ const TaxTable = ({ data, loader }) => {
 				<tbody>
 					{data.map((data, index) => {
 						const { type } = data;
-						return type === "Expense" ? (
-							<ExpenseType index={index} data={data} />
-						) : (
-							<ReceivableType index={index} data={data} />
+						return (
+							<tr key={index}>
+								{type === "Expense" ? (
+									<ExpenseType index={index} data={data} />
+								) : (
+									<ReceivableType index={index} data={data} />
+								)}
+							</tr>
 						);
 					})}
 					{loader && <Loader />}
@@ -80,7 +84,7 @@ const Loader = () => {
 const ExpenseType = ({ data, index }) => {
 	const { humantimeStamp, type, eth, usd, to, hash } = data;
 	return (
-		<tr key={index}>
+		<>
 			<td className="py-3 px-5">
 				<a
 					className="text-blue-500"
@@ -103,14 +107,14 @@ const ExpenseType = ({ data, index }) => {
 					{to}
 				</a>
 			</td>
-		</tr>
+		</>
 	);
 };
 
 const ReceivableType = ({ data, index }) => {
 	const { humantimeStamp, type, eth, usd, hash } = data;
 	return (
-		<tr key={index}>
+		<>
 			<td className="py-3 px-5">
 				<a
 					className="text-blue-500"
@@ -125,6 +129,6 @@ const ReceivableType = ({ data, index }) => {
 			<td className="py-3 px-5">{usd}</td>
 			<td className={`py-3 px-5`} />
 			<td className="py-3 px-5" />
-		</tr>
+		</>
 	);
 };
