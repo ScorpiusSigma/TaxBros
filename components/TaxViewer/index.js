@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 import View from "./View";
 
 export default function TaxViewer() {
 	const [optionVal, setOptionVal] = useState(0);
+	const { targetWalletAddress } = useContext(GlobalContext);
 	const options = [
 		{ title: "Overall" },
 		{ title: "Receivable" },
@@ -35,10 +37,7 @@ export default function TaxViewer() {
 					</button>
 				</div>
 			</div>
-			<View
-				walletAddress={"0xf396b0385fac34992e96263256b1ffc02d21b5fc"}
-				type={optionVal}
-			/>
+			<View walletAddress={targetWalletAddress} type={optionVal} />
 		</div>
 	);
 }

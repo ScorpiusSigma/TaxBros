@@ -12,7 +12,7 @@ export default function View({ walletAddress, type }) {
 		await fetch(`/api/${api[type]}`, {
 			method: "POST",
 			body: JSON.stringify({
-				walletAddress: walletAddress,
+				walletAddress: [walletAddress],
 			}),
 		})
 			.then((res) => res.json())
@@ -22,74 +22,20 @@ export default function View({ walletAddress, type }) {
 			})
 			.catch(() => {
 				setLoader(false);
-				setTaxes([
-					{
-						blockNumber: "15307181",
-						timeStamp: "1660036856",
-						hash: "0x04d5df5dff09627827dbf078f3bc216bef90c23abdbf2c45631de4dc302e42ec",
-						nonce: "196660",
-						blockHash:
-							"0x978dabae5ab00624161138243c26d484d6a30989a428e3883445c4b72ad36d91",
-						transactionIndex: "61",
-						from: "0x151b381058f91cf871e7ea1ee83c45326f61e96d",
-						to: "0xf396b0385fac34992e96263256b1ffc02d21b5fc",
-						value: "17100000000000000",
-						gas: "21000",
-						gasPrice: "10835680744",
-						isError: "0",
-						txreceipt_status: "1",
-						input: "0x",
-						contractAddress: "",
-						cumulativeGasUsed: "4527635",
-						gasUsed: "21000",
-						confirmations: "396767",
-						methodId: "0x",
-						functionName: "",
-						usd: "29.66",
-						eth: 0.0171,
-						type: "Expense",
-						humantimeStamp: "09 Aug 2022 17:20",
-					},
-					{
-						blockNumber: "15307181",
-						timeStamp: "1660036856",
-						hash: "0x05g2sf5dff09627827dbf078f3bc216bef90c23abdbf2c45631de4dc302e42ec",
-						nonce: "196660",
-						blockHash:
-							"0x978dabae5ab00624161138243c26d484d6a30989a428e3883445c4b72ad36d91",
-						transactionIndex: "61",
-						from: "0x151b381058f91cf871e7ea1ee83c45326f61e96d",
-						to: "0xf396b0385fac34992e96263256b1ffc02d21b5fc",
-						value: "17100000000000000",
-						gas: "21000",
-						gasPrice: "10835680744",
-						isError: "0",
-						txreceipt_status: "1",
-						input: "0x",
-						contractAddress: "",
-						cumulativeGasUsed: "4527635",
-						gasUsed: "21000",
-						confirmations: "396767",
-						methodId: "0x",
-						functionName: "",
-						usd: "29.66",
-						eth: 0.0171,
-						type: "Receivable",
-						humantimeStamp: "09 Aug 2022 17:20",
-					},
-				]);
+				setTaxes([]);
 			});
 	};
 
 	useEffect(() => {
 		getTaxReports();
-	}, [type]);
+	}, [type, walletAddress]);
 
 	return <TaxTable walletAddress={walletAddress} data={tax} loader={loader} />;
 }
 
 const TaxTable = ({ data, loader, walletAddress }) => {
 	const { taxables, setTaxables } = useContext(GlobalContext);
+	const [selectAll, setSelectAll] = useState(false);
 
 	const titles = [
 		"Date",
@@ -99,9 +45,30 @@ const TaxTable = ({ data, loader, walletAddress }) => {
 		"",
 		"To",
 		<span className="flex items-center gap-2">
-			Select <input type="checkbox" onChange={() => handleSelect("")} />
+			Select{" "}
+			<input
+				type="checkbox"
+				onChange={() => handleSelect("")}
+				checked={selectAll}
+			/>
 		</span>,
 	];
+
+	const checkAllIsSelected = () => {
+		const test = (hash) =>
+			taxables
+				.filter((tax) => tax.walletAddress === walletAddress)[0]
+				?.hashes.includes(hash);
+
+		const doesNotInclude = data.filter((el) => !test(el.hash)).length > 0;
+
+		if (doesNotInclude) {
+			setSelectAll(false);
+			return;
+		}
+
+		setSelectAll(true);
+	};
 
 	const handleSelect = (hash) => {
 		if (hash === "") {
@@ -114,13 +81,15 @@ const TaxTable = ({ data, loader, walletAddress }) => {
 				taxables.filter((tax) => tax.walletAddress === walletAddress).length >
 				0;
 
-			if (isExists)
+			if (isExists) {
 				setTaxables([
 					...taxables.filter((tax) => tax.walletAddress !== walletAddress),
 				]);
-			else {
+				setSelectAll(false);
+			} else {
 				const result = [...taxables, { ...allTax }];
 				setTaxables([...result]);
+				setSelectAll(true);
 			}
 
 			return;
@@ -156,6 +125,10 @@ const TaxTable = ({ data, loader, walletAddress }) => {
 
 		return bool;
 	};
+
+	useEffect(() => {
+		checkAllIsSelected();
+	}, [walletAddress, data, taxables]);
 
 	return (
 		<div className="flex flex-col bg-white w-full shadow-sm rounded-md">
