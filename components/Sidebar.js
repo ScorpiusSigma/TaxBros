@@ -1,6 +1,6 @@
-import Indivbox from "../Indivbox/Indivbox"
+import Indivbox from "./Indivbox"
 import { useContext, useState } from "react"
-import { GlobalContext } from "../../context/GlobalContext";
+import { GlobalContext } from "./context/GlobalContext";
 
 const Sidebar = () => {
 
