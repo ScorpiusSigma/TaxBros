@@ -5,6 +5,7 @@ export default function View({ walletAddress, type }) {
 	const [tax, setTaxes] = useState([]);
 	const api = ["getTaxReports", "getReceivables", "getExpenses"];
 	const [loader, setLoader] = useState(false);
+	const { taxables, setTaxables } = useContext(GlobalContext);
 
 	const getTaxReports = async () => {
 		setTaxes([]);
@@ -17,6 +18,18 @@ export default function View({ walletAddress, type }) {
 		})
 			.then((res) => res.json())
 			.then((data) => {
+				const hashes = data.result.map((el) => el.hash);
+				const isExist =
+					taxables.filter((tax) => tax.walletAddress === walletAddress).length >
+					0;
+
+				let result = { walletAddress: walletAddress, hashes: hashes };
+
+				if (!isExist) {
+					taxables.push(result);
+				}
+
+				setTaxables([...taxables]);
 				setTaxes(data.result);
 				setLoader(false);
 			})
@@ -78,16 +91,22 @@ const TaxTable = ({ data, loader, walletAddress }) => {
 			});
 
 			const isExists =
-				taxables.filter((tax) => tax.walletAddress === walletAddress).length >
-				0;
+				taxables.filter((tax) => tax.walletAddress === walletAddress)[0]?.hashes
+					.length > 0;
 
 			if (isExists) {
 				setTaxables([
-					...taxables.filter((tax) => tax.walletAddress !== walletAddress),
+					...taxables.map((tax) => {
+						if (tax.walletAddress === walletAddress) tax.hashes = [];
+						return tax;
+					}),
 				]);
 				setSelectAll(false);
 			} else {
-				const result = [...taxables, { ...allTax }];
+				const result = taxables.map((tax) => {
+					if (tax.walletAddress === walletAddress) tax.hashes = allTax.hashes;
+					return tax;
+				});
 				setTaxables([...result]);
 				setSelectAll(true);
 			}
