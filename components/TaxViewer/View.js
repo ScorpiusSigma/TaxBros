@@ -44,7 +44,7 @@ const TaxTable = ({ data, loader, walletAddress }) => {
 		"USD Value",
 		"",
 		"To",
-		<span className="flex items-center gap-2">
+		<span key={6} className="flex items-center gap-2">
 			Select{" "}
 			<input
 				type="checkbox"
