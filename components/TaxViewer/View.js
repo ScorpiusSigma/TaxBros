@@ -193,6 +193,7 @@ const ExpenseType = ({ data, handleSelect, isChecked }) => {
 				<a
 					className="text-blue-500"
 					target="_blank"
+					rel="noopener noreferrer"
 					href={`https://etherscan.io/tx/${hash}`}
 				>
 					{humantimeStamp}
@@ -206,6 +207,7 @@ const ExpenseType = ({ data, handleSelect, isChecked }) => {
 				<a
 					className="text-blue-500"
 					target="_blank"
+					rel="noreferrer"
 					href={`https://etherscan.io/address/${to}`}
 				>
 					{to}
@@ -230,6 +232,7 @@ const ReceivableType = ({ data, handleSelect, isChecked }) => {
 				<a
 					className="text-blue-500"
 					target="_blank"
+					rel="noreferrer"
 					href={`https://etherscan.io/tx/${hash}`}
 				>
 					{humantimeStamp}
