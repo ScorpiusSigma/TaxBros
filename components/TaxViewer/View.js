@@ -53,7 +53,7 @@ export default function View({ walletAddress, type }) {
 					{
 						blockNumber: "15307181",
 						timeStamp: "1660036856",
-						hash: "0x04d5df5dff09627827dbf078f3bc216bef90c23abdbf2c45631de4dc302e42ec",
+						hash: "0x05g2sf5dff09627827dbf078f3bc216bef90c23abdbf2c45631de4dc302e42ec",
 						nonce: "196660",
 						blockHash:
 							"0x978dabae5ab00624161138243c26d484d6a30989a428e3883445c4b72ad36d91",
@@ -98,20 +98,44 @@ const TaxTable = ({ data, loader, walletAddress }) => {
 		"USD Value",
 		"",
 		"To",
-		"Select",
+		<span className="flex items-center gap-2">
+			Select <input type="checkbox" onChange={() => handleSelect("")} />
+		</span>,
 	];
 
 	const handleSelect = (hash) => {
+		if (hash === "") {
+			const allTax = { walletAddress: walletAddress, hashes: [] };
+			data.map((tax) => {
+				allTax.hashes.push(tax.hash);
+			});
+
+			const isExists =
+				taxables.filter((tax) => tax.walletAddress === walletAddress).length >
+				0;
+
+			if (isExists)
+				setTaxables([
+					...taxables.filter((tax) => tax.walletAddress !== walletAddress),
+				]);
+			else {
+				const result = [...taxables, { ...allTax }];
+				setTaxables([...result]);
+			}
+
+			return;
+		}
+
 		let isNewWallet =
 			taxables.filter((tax) => tax.walletAddress === walletAddress).length ===
 			0;
 
-		if (isNewWallet) {
+		if (isNewWallet)
 			taxables.push({
 				walletAddress: walletAddress,
 				hashes: [hash],
 			});
-		} else {
+		else {
 			taxables = taxables.map((tax) => {
 				if (tax.walletAddress === walletAddress) {
 					const tempHashes = tax.hashes;
@@ -129,6 +153,7 @@ const TaxTable = ({ data, loader, walletAddress }) => {
 		const bool = taxables
 			.filter((tax) => tax.walletAddress === walletAddress)[0]
 			?.hashes.includes(hash);
+
 		return bool;
 	};
 
