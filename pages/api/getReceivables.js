@@ -18,7 +18,13 @@ export default async function handler(req, res) {
 
 	await Promise.all(result).then((values) => (result = values));
 	//console.log(result)
-	res.status(200).json({ result });
+	const receivables = []
+	for (const ts in result){
+		if (ts['type'] == 'Receivable'){
+			receivables.push(ts)
+		}
+	}
+	res.status(200).json({ receivables });
 }
 
 const getUSDValue = async (timeStamp, value, fromAddress, address) => {

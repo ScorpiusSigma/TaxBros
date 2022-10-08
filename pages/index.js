@@ -11,7 +11,7 @@ export default function Home() {
 		fetch("/api/getTaxReports", {
 			method: "POST",
 			body: JSON.stringify({
-				walletAddress: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
+				walletAddress: "0xf396b0385faC34992E96263256B1ffC02d21b5fc"
 			})
 		})
 	}
