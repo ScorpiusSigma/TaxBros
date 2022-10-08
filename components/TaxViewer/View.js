@@ -176,7 +176,7 @@ const TaxTable = ({ data, loader, walletAddress }) => {
 const Loader = () => {
 	return (
 		<tr>
-			{[...Array(6)].map((x, index) => (
+			{[...Array(7)].map((x, index) => (
 				<td key={index} className="py-3 px-5">
 					<span className="block w-full h-4 rounded-md bg-gray-100 animate-pulse" />
 				</td>
