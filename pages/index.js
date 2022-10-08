@@ -2,6 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar/Navbar";
 import Sidebar from "../components/Navbar/Sidebar/Sidebar";
+import Navbar from "../components/Navbar";
+import TaxViewer from "../components/TaxViewer";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
