@@ -32,7 +32,7 @@ const TaxTable = ({ data }) => {
 	console.log(data);
 	return (
 		<table className="table-auto bg-white w-full shadow-sm rounded-md">
-			<thead>
+			<thead className="font-bold">
 				<tr>
 					{titles.map((title, index) => (
 						<td key={index} className="py-2 px-5">
@@ -43,15 +43,29 @@ const TaxTable = ({ data }) => {
 			</thead>
 			<tbody>
 				{data.map((data, index) => {
-					const { humantimeStamp, type, eth, usd } = data;
+					const { humantimeStamp, type, eth, usd, to, hash } = data;
 					return (
 						<tr key={index}>
-							<td className="py-3 px-5 ">{humantimeStamp}</td>
-							<td className="py-3 px-5 ">{type}</td>
-							<td className="py-3 px-5 ">
-								{(type === "expense" ? "- " : "") + eth} ETH
+							<td className="py-3 px-5">
+								<a target="_blank" href={`https://etherscan.io/tx/${hash}`}>
+									{humantimeStamp}
+								</a>
 							</td>
-							<td className="py-3 px-5 ">{usd}</td>
+							<td className="py-3 px-5">{type}</td>
+							<td
+								className={`py-3 px-5 ${
+									type === "expense" ? "text-red-500" : "text-green-600"
+								}`}
+							>
+								{(type === "expense" ? "- " : "+ ") + eth} ETH
+							</td>
+							<td className="py-3 px-5">{usd}</td>
+							<td className={`py-3 px-5`}>{type === "expense" && "->"}</td>
+							<td className="py-3 px-5 truncate">
+								<a target="_blank" href={`https://etherscan.io/address/${to}`}>
+									{to}
+								</a>
+							</td>
 						</tr>
 					);
 				})}
