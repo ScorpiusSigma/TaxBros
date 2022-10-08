@@ -3,6 +3,16 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+
+	const test = () => {
+		fetch("/api/getTaxReports", {
+			method: "POST",
+			body: JSON.stringify({
+				walletAddress: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
+			})
+		})
+	}
+
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -31,7 +41,7 @@ export default function Home() {
 						<h2>Learn &rarr;</h2>
 						<p>Learn about Next.js in an interactive course with quizzes!</p>
 					</a>
-
+<button onClick={test}> Click me </button>
 					<a
 						href="https://github.com/vercel/next.js/tree/canary/examples"
 						className={styles.card}
