@@ -2,30 +2,36 @@
 
 export default async function handler(req, res) {
 	const { walletAddress } = JSON.parse(req.body);
+    let collatedResult = []
+    
+    for (const walletId of walletAddress){
+        const txHistory = await fetch(
+            `https://api.etherscan.io/api?module=account&action=txlist&address=${walletId}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=T5F14H1RXART3EQSAGZQSU8GJK9P1QRE4C`
+        ).then((res) => res.json());
+    
+        let result = txHistory.result.map(async (tx) => {
+            const value = await getUSDValue(
+                tx.timeStamp,
+                tx.value,
+                tx.from,
+                walletId
+            );
+            tx.usd = value[1].toFixed(2);
+            tx.eth = value[0];
+            tx.type = value[2];
+            tx.humantimeStamp = value[3];
+            return tx;
+        });
+    
+        await Promise.all(result).then((values) => (result = values));
+        //console.log(result)
+        const receivables = result.filter((el) => el.type === "Receivable");
+        collatedResult = collatedResult.concat(receivables)
 
-	const txHistory = await fetch(
-		`https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=T5F14H1RXART3EQSAGZQSU8GJK9P1QRE4C`
-	).then((res) => res.json());
+    }
+	
 
-	let result = txHistory.result.map(async (tx) => {
-		const value = await getUSDValue(
-			tx.timeStamp,
-			tx.value,
-			tx.from,
-			walletAddress
-		);
-		tx.usd = value[1].toFixed(2);
-		tx.eth = value[0];
-		tx.type = value[2];
-		tx.humantimeStamp = value[3];
-		return tx;
-	});
-
-	await Promise.all(result).then((values) => (result = values));
-	//console.log(result)
-	const receivables = result.filter((el) => el.type === "Receivable");
-
-	res.status(200).json({ result: receivables });
+	res.status(200).json({ result: [...new Set(collatedResult)] });
 }
 
 const getUSDValue = async (timeStamp, value, fromAddress, address) => {
