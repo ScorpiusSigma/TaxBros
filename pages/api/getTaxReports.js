@@ -12,11 +12,12 @@ export default async function handler(req, res) {
 		tx.usd = value[1];
 		tx.eth = value[0];
         tx.type = value[2];
+		tx.humantimeStamp = value[3];
 		return tx;
 	});
 
 	await Promise.all(result).then((values) => (result = values));
-	//console.log(result)
+	console.log(result)
 	res.status(200).json({ name: result });
 }
 
@@ -29,10 +30,11 @@ const getUSDValue = async (timeStamp, value, fromAddress, address) => {
 	const length = result['Data']['Data'].length
 	const rate = result["Data"]["Data"][length - 1]["close"];
 	const eth = value / 10 ** 18;
+	const humantimeStamp = String(new Date(timeStamp * 1000));
 	
     if (fromAddress == address.toLowerCase()){
-		return [eth, eth * rate, 'expense']
+		return [eth, eth * rate, 'expense', humantimeStamp]
 	}
 
-	return [eth, eth * rate, 'receivable'];
+	return [eth, eth * rate, 'receivable', humantimeStamp];
 };
