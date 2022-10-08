@@ -1,4 +1,4 @@
-import Indivbox from "../Indivbox/Indivbox"
+import Indivbox from "../../Indivbox"
 
 const Sidebar = () => {
     return (
