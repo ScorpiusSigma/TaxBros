@@ -1,17 +1,19 @@
 import Head from "next/head";
+import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import TaxViewer from "../components/TaxViewer";
 
 export default function Home() {
-	const test = () => {
-		fetch("/api/getTaxReports", {
-			method: "POST",
-			body: JSON.stringify({
-				walletAddress: "0xf396b0385faC34992E96263256B1ffC02d21b5fc",
-			}),
-		});
-	};
+	// const test = () => {
+	// 	fetch("/api/getTaxReports", {
+	// 		method: "POST",
+	// 		body: JSON.stringify({
+	// 			walletAddress: ["0xf396b0385faC34992E96263256B1ffC02d21b5fc", "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"],
+	// 		}),
+	// 	});
+	// };
+
 
 	return (
 		<div className="flex flex-col p-2 h-screen w-screen">
