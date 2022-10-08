@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import TaxViewer from "../components/TaxViewer";
+import TaxViewer from "../components/TaxViewer/index";
 
 export default function Home() {
 	const test = () => {
