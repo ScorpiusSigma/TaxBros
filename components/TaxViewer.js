@@ -1,28 +1,51 @@
+import { useEffect, useState } from "react";
+
 export default function TaxViewer() {
+	const [tax, setTaxes] = useState([]);
+
+	const getTaxReports = async () => {
+		await fetch("/api/getTaxReports", {
+			method: "POST",
+			body: JSON.stringify({
+				walletAddress: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+			}),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				setTaxes(data.name);
+			});
+	};
+
+	useEffect(() => {
+		getTaxReports();
+	}, []);
+
 	return (
 		<div className="p-5 bg-gray-50 w-full h-full rounded-md text-xs overflow-auto">
-			<TaxTable data={testData} />
+			<TaxTable data={tax} />
 		</div>
 	);
 }
 
 const TaxTable = ({ data }) => {
 	const titles = ["Date", "Method", "Eth Value", "USD Value"];
-
+	console.log(data);
 	return (
-		<table class="table-auto bg-white w-full shadow-sm rounded-md">
+		<table className="table-auto bg-white w-full shadow-sm rounded-md">
 			<thead>
 				<tr>
-					{titles.map((title) => (
-						<td className="py-2 px-5">{title}</td>
+					{titles.map((title, index) => (
+						<td key={index} className="py-2 px-5">
+							{title}
+						</td>
 					))}
 				</tr>
 			</thead>
 			<tbody>
-				{data.map((data) => {
+				{data.map((data, index) => {
 					const { timeStamp, methodId, eth, usd } = data;
 					return (
-						<tr>
+						<tr key={index}>
 							<td className="py-2 px-5">{timeStamp}</td>
 							<td className="py-2 px-5">{methodId}</td>
 							<td className="py-2 px-5">Ethereum</td>
