@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
+import GeneratePDF from "../GeneratePDF";
 import View from "./View";
 
 export default function TaxViewer() {
@@ -32,9 +33,7 @@ export default function TaxViewer() {
 					))}
 				</div>
 				<div>
-					<button className="px-4 py-2 text-white font-bold w-max rounded-lg active:bg-blue-600 bg-[#2E38BF]">
-						Generate Report
-					</button>
+					<GeneratePDF/>
 				</div>
 			</div>
 			<View walletAddress={targetWalletAddress} type={optionVal} />

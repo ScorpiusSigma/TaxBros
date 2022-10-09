@@ -16,15 +16,15 @@ export default async function handler(req, res) {
 				walletId
 			);
 			tx.usd = value[1].toFixed(2);
-			tx.eth = value[0];
+			tx.eth = value[0].toFixed(5);
 			tx.type = value[2];
 			tx.humantimeStamp = value[3];
 			return tx;
 		});
 
 		await Promise.all(result).then((values) => (result = values));
-
-		collatedResult = collatedResult.concat(result);
+        const results = result.filter((el) => parseInt(el.eth) > 0);
+		collatedResult = collatedResult.concat(results);
 	}
 
 	res.status(200).json({ result: [...new Set(collatedResult)] });

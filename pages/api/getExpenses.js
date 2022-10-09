@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 				walletId
 			);
 			tx.usd = value[1].toFixed(2);
-			tx.eth = value[0];
+			tx.eth = value[0].toFixed(5);
 			tx.type = value[2];
 			tx.humantimeStamp = value[3];
 			return tx;
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
 		await Promise.all(result).then((values) => (result = values));
 		//console.log(result)
-		const expenses = result.filter((el) => el.type === "Expense");
+		const expenses = result.filter((el) => el.type === "Expense" && el.eth > 0);
 		collatedResult = collatedResult.concat(expenses);
 	}
 
