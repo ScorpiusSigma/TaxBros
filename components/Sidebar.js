@@ -26,6 +26,9 @@ const Sidebar = () => {
 
 		walletAddresses.push(account);
 		setSuccess(!success);
+		setTimeout(() => {
+			setSuccess(false);
+		}, 3000);
 		setWalletAddresses([...walletAddresses]);
 	};
 
