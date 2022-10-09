@@ -22,8 +22,8 @@ export default function TaxViewer() {
 					{options.map((option, index) => (
 						<button
 							key={index}
-							className={`hover:text-blue-500 ${
-								optionVal === index ? "text-blue-500" : ""
+							className={`hover:text-[#2E38BF] ${
+								optionVal === index ? "text-[#2E38BF] font-bold" : ""
 							}`}
 							onClick={() => handleOptionSelect(index)}
 						>
@@ -32,7 +32,7 @@ export default function TaxViewer() {
 					))}
 				</div>
 				<div>
-					<button className="px-4 py-2 text-white font-bold w-max rounded-lg active:bg-blue-300 bg-blue-600">
+					<button className="px-4 py-2 text-white font-bold w-max rounded-lg active:bg-blue-600 bg-[#2E38BF]">
 						Generate Report
 					</button>
 				</div>
