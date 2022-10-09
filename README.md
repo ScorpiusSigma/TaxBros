@@ -9,23 +9,17 @@
 
 ## Demo
 
-<hr/>
-
 Website: https://taxbros.vercel.app/
 
 Video:
 
 ## About The Project
 
-<hr/>
-
 This project is done for **Crypto.com TheNextGen Hackathon 2022**. The problem statement that we are tackling is on how we might use Web3 to solve a business problem.
 
 As the crypto trend grows, there are more and more companies looking to adopt cryptocurrencies payment into their ecosystem. However, they do not necessarily possess the technical knowledge to compute their transactions for taxing purposes. Therefore, TaxBros is a one-stop solution in helping these companies to get all their crypto transactions and calculate and generate their taxes for them.
 
 ## Preview
-
-<hr/>
 
 <u>App page</u>
 
@@ -53,7 +47,6 @@ As the crypto trend grows, there are more and more companies looking to adopt cr
 
 ## Getting Started
 
-<hr/>
 This is an example of how you can set up your project locally. To get a local copy up and running follow these simple example steps.
 
 ```
