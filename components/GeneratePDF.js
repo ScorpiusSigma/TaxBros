@@ -34,7 +34,6 @@ export default function GeneratePDF() {
 
 		doc.text("TaxBros", 95, 10);
 		doc.setFontSize(10);
-		doc.text("(One Year from Today)", 87, 15);
 		doc.text(
 			"Date Range: " +
 				taxable["image"][taxable["image"].length - 1]["humantimeStamp"] +
