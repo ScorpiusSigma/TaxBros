@@ -29,25 +29,14 @@ export default async function handler(req, res) {
 		});
 
 		await Promise.all(result).then((values) => (result = values));
-
+    
 		collatedResult = collatedResult.concat(result);
 	}
-
-	const imageBase64 = await generateImage([...new Set(collatedResult)])
-
-	res.status(200).json({ image: imageBase64 });
+    console.log(collatedResult)
+	console.log('this is the collated')
+	res.status(200).json({ image: [...new Set(collatedResult)] });
 }
 
-const generateImage = async (taxes) => {
-	let imageRes;
-	await Jimp.read("./public/irsStatement.jpg", (err, image)=> {
-		// image.print(Jimp.FONT_SANS_14_BLACK, 10, 20, "hello world")
-		imageRes = image.getBase64Async("image/png")
-		console.log(imageRes)
-	})
-
-	return imageRes
-}
 
 const getUSDValue = async (timeStamp, value, fromAddress, address) => {
 	const result = await fetch(
