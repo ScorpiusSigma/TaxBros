@@ -10,7 +10,7 @@ const Indivbox = ({ walletAdd }) => {
 	} = useContext(GlobalContext);
 
 	const handleClick = () => {
-		setTargetWalletAddress(targetWalletAddress !== walletAdd ? walletAdd : "");
+		setTargetWalletAddress(walletAdd);
 	};
 
 	const handleDelete = () => {

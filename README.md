@@ -1,3 +1,3 @@
-# Tax Bros
+# TaxBros
 
 A blockchanin taxing service

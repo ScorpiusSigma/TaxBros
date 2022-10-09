@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 	const { taxables } = JSON.parse(req.body);
 	let collatedResult = [];
 	for (const taxable of taxables) {
-		const walletId = taxable.walletAddress
+		const walletId = taxable.walletAddress;
 		const txHistory = await fetch(
 			`https://api.etherscan.io/api?module=account&action=txlist&address=${walletId}&startblock=0&endblock=99999999&page=1&offset=50&sort=desc&apikey=T5F14H1RXART3EQSAGZQSU8GJK9P1QRE4C`
 		).then((res) => res.json());
