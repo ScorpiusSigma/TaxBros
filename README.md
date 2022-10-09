@@ -1,10 +1,23 @@
+<!-- Global Styles -->
+<style>
+    img {
+        width:400px;
+    }
+</style>
+
 # TaxBros
 
 ## Demo
 
-https://taxbros.vercel.app/
+<hr/>
+
+Website: https://taxbros.vercel.app/
+
+Video:
 
 ## About The Project
+
+<hr/>
 
 This project is done for **Crypto.com TheNextGen Hackathon 2022**. The problem statement that we are tackling is on how we might use Web3 to solve a business problem.
 
@@ -12,11 +25,30 @@ As the crypto trend grows, there are more and more companies looking to adopt cr
 
 ## Preview
 
+<hr/>
+
+<u>App page</u>
+
 ![HomePage](public/homepage.png)
-![HomePage](public/walletConnect.png)
+
+<u>Connecting Wallet</u>
+
+![Connecting Wallet](public/walletConnect.png)
+
+<u>Get at overall data</u>
+
 ![Look at overall data](public/populatedData.png)
+
+<u>Get Receivables</u>
+
 ![Filter by Receivables](public/receivables.png)
+
+<u>Get Expenses</u>
+
 ![Filter by Expenses](public/Expense.png)
+
+<u>Result of generated tax report</u>
+
 ![Generate Tax Result](public/taxResult.png)
 
 ## Getting Started
