@@ -1,11 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import Jimp from "jimp";
 
 export default async function handler(req, res) {
 	const { taxables } = JSON.parse(req.body);
 	let collatedResult = [];
 	for (const taxable of taxables) {
+		const walletId = taxable.walletAddress
 		const txHistory = await fetch(
-			`https://api.etherscan.io/api?module=account&action=txlist&address=${taxable.walletAddress}&startblock=0&endblock=99999999&page=1&offset=50&sort=desc&apikey=T5F14H1RXART3EQSAGZQSU8GJK9P1QRE4C`
+			`https://api.etherscan.io/api?module=account&action=txlist&address=${walletId}&startblock=0&endblock=99999999&page=1&offset=50&sort=desc&apikey=T5F14H1RXART3EQSAGZQSU8GJK9P1QRE4C`
 		).then((res) => res.json());
 
 		txHistory.result = txHistory.result.filter((tx) =>
@@ -31,7 +33,20 @@ export default async function handler(req, res) {
 		collatedResult = collatedResult.concat(result);
 	}
 
-	res.status(200).json({ result: [...new Set(collatedResult)] });
+	const imageBase64 = await generateImage([...new Set(collatedResult)])
+
+	res.status(200).json({ image: imageBase64 });
+}
+
+const generateImage = async (taxes) => {
+	let imageRes;
+	await Jimp.read("./public/irsStatement.jpg", (err, image)=> {
+		// image.print(Jimp.FONT_SANS_14_BLACK, 10, 20, "hello world")
+		imageRes = image.getBase64Async("image/png")
+		console.log(imageRes)
+	})
+
+	return imageRes
 }
 
 const getUSDValue = async (timeStamp, value, fromAddress, address) => {
