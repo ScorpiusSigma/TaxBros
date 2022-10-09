@@ -1,10 +1,3 @@
-<!-- Global Styles -->
-<style>
-    img {
-        width:400px;
-    }
-</style>
-
 # TaxBros
 
 ## Demo
@@ -21,27 +14,27 @@ As the crypto trend grows, there are more and more companies looking to adopt cr
 
 ## Preview
 
-<u>App page</u>
+**App page**
 
 ![HomePage](public/homepage.png)
 
-<u>Connecting Wallet</u>
+**Connecting Wallet**
 
 ![Connecting Wallet](public/walletConnect.png)
 
-<u>Get at overall data</u>
+**Get at overall data**
 
 ![Look at overall data](public/populatedData.png)
 
-<u>Get Receivables</u>
+**Get Receivables**
 
 ![Filter by Receivables](public/receivables.png)
 
-<u>Get Expenses</u>
+**Get Expenses**
 
 ![Filter by Expenses](public/Expense.png)
 
-<u>Result of generated tax report</u>
+**Result of generated tax report**
 
 ![Generate Tax Result](public/taxResult.png)
 
